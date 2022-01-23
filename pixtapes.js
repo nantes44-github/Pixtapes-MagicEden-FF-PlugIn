@@ -23,7 +23,7 @@ function titleModified() {
           var xmlDoc = parser.parseFromString(xhr.responseText, "text/html"); 
           var rarity = xmlDoc.evaluate("(//strong[text()='PixTape']/../em)",xmlDoc,null,XPathResult.STRING_TYPE,null);
           console.log(`${rarity.stringValue}`);
-          document.getElementsByClassName("m-0 item-title")[0].textContent =document.getElementsByClassName("m-0 item-title")[0].textContent + " " + rarity.stringValue;
+          document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].textContent =document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].textContent + " ||" + rarity.stringValue + "||";
         }
       };
       
@@ -42,7 +42,7 @@ function titleModified() {
     }
 }
 
-
+/*
 window.onchange = function() {
     var titleEl = document.getElementsByTagName("title")[0];
     var docEl = document.documentElement;
@@ -64,7 +64,7 @@ window.onchange = function() {
         };
     }
 };
-
+*/
 
 window.onload = function() {
     var titleEl = document.getElementsByTagName("title")[0];
