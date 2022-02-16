@@ -1,4 +1,4 @@
-console.log("Activation du plug-in");   
+console.log("Activation du plug-in 1.5");   
 
 function titleModified() {
     console.log("plug-in pixtapes"); 
@@ -7,10 +7,16 @@ function titleModified() {
     var tapeNum = title.split(" |")[0].split("#")[1];
     console.log(tapeNum);
 
-    if (title.split(" |")[0].split("#")[0]=="PixTape ") {
-
+    if (title.split(" |")[0].split("#")[0]=="PixTape " || title.split(" |")[0].split("#")[0]=="PixCase ") {
+      if (title.split(" |")[0].split("#")[0]=="PixTape "){
+        var rarityUrl="https://pixtapes.com/tape/";
+        var typeSearch="PixTape";
+      } else {
+        var rarityUrl="https://pixtapes.com/case/";
+        var typeSearch="PixCase";
+      }
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://pixtapes.com/tape/"+tapeNum, true);
+    xhr.open("GET", rarityUrl+tapeNum, true);
     xhr.setRequestHeader('Content-type', 'text/html');
     xhr.send();
     
@@ -22,7 +28,7 @@ function titleModified() {
           var parser = new DOMParser();
           var xmlDoc = parser.parseFromString(xhr.responseText, "text/html"); 
           //console.log(xhr.responseText);
-          var rarity = xmlDoc.evaluate("(//strong[text()='PixTape']/../em)",xmlDoc,null,XPathResult.STRING_TYPE,null);
+          var rarity = xmlDoc.evaluate("(//strong[text()='"+typeSearch+"']/../em)",xmlDoc,null,XPathResult.STRING_TYPE,null);
           console.log(`${rarity.stringValue}`);
           document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML =document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML + "<br>" + rarity.stringValue;
         }
@@ -46,17 +52,34 @@ function titleModified() {
 }
 
 function pixcase() {
+
+
+  var title = document.getElementsByTagName("title")[0].innerHTML;
     console.log("plug-in pixcases"); 
-    var title = document.getElementsByTagName("title")[0].innerHTML;
+    console.log(title.split(" |")[0].split("#")[0]);
+    if (title.split(" |")[0].split("#")[0]=="PixTape "){
+      console.log("it's a pixtape");
+      var linkUrl="https://pixtapes.com/case/";
+      var typeSearch="PixCase";
+    } else {
+      console.log("it's a pixcase");
+      var linkUrl="https://pixtapes.com/tape/";
+      var typeSearch="PixTape";
+    }
+
+
+
+
+    
     console.log(title);
     var tapeNum = title.split(" |")[0].split("#")[1];
     console.log(tapeNum);
 
-    if (title.split(" |")[0].split("#")[0]=="PixTape ") {
+    if (title.split(" |")[0].split("#")[0]=="PixTape " || title.split(" |")[0].split("#")[0]=="PixCase ") {
 
     const xhr = new XMLHttpRequest();
 
-    xhr.open("GET", "https://pixtapes.com/case/"+tapeNum, true);
+    xhr.open("GET", linkUrl+tapeNum, true);
     xhr.setRequestHeader('Content-type', 'text/html');
     xhr.send();
     
@@ -70,7 +93,7 @@ function pixcase() {
           //console.log(xhr.responseText);
           var caseUrl = xmlDoc.evaluate("(//a[text()='Magic Eden']/@href)",xmlDoc,null,XPathResult.STRING_TYPE,null);
           console.log(caseUrl.stringValue);
-          document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML  =document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML + "<br><a href='"+caseUrl.stringValue+"'>>>Go to associated PixCase<<</a>";
+          document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML  =document.getElementsByClassName("tw-m-0 item-title tw-text-xl")[0].innerHTML + "<br><a href='"+caseUrl.stringValue+"' class='fs-80 tw-truncate tw-mr-1 tw-text-base'>>>Go to associated "+typeSearch+"<<</a>";
         }
       };
       
